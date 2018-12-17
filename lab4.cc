@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <random>
+#include <iostream>
 
 typedef unsigned long ulong;
 
@@ -28,6 +29,7 @@ int main(void)
     auto res2 = NPC::kmkk(_set, set_length);
     // test
 
+    std::cout << 4 / 2 << 5 / 2 << std::endl;
 
     return 0;
 }
