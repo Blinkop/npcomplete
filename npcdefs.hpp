@@ -6,6 +6,7 @@
 
 typedef unsigned long       uint32;
 typedef unsigned long long  uint64;
+typedef unsigned char       uint8;
 
 template <typename T>
 uint64 sum_array(T* data, size_t len)
@@ -18,11 +19,11 @@ uint64 sum_array(T* data, size_t len)
 }
 
 template <typename T>
-void merge(T arr[], size_t l, size_t m, size_t r) 
+void merge(T arr[], int l, int m, int r) 
 {
-    size_t i, j, k;
-    size_t n1 = m - l + 1;
-    size_t n2 = r - m;
+    int i, j, k;
+    int n1 = m - l + 1;
+    int n2 = r - m;
 
     /* create temp arrays */
     T L[n1], R[n2];
@@ -74,17 +75,17 @@ void merge(T arr[], size_t l, size_t m, size_t r)
 /* l is for left index and r is right index of the 
     sub-array of arr to be sorted */
 template <typename T>
-void merge_sort_dec(T arr[], size_t l, size_t r)
+void merge_sort_des(T arr[], int l, int r)
 {
     if (l < r)
     {
         // Same as (l+r)/2, but avoids overflow for
         // large l and h
-        size_t m = l + (r - l) / 2;
+        int m = l + (r - l) / 2;
 
         // Sort first and second halves
-        merge_sort_dec(arr, l, m);
-        merge_sort_dec(arr, m + 1, r);
+        merge_sort_des(arr, l, m);
+        merge_sort_des(arr, m + 1, r);
 
         merge(arr, l, m, r);
     }

@@ -3,13 +3,17 @@
 
 #include "npcdefs.hpp"
 
+// for std::memcpy
+#include <cstring>
+
 namespace NPC
 {
     template <typename T>
     bool kmkk(T * data, size_t len)
     {
-        merge_sort_dec(data, 0, len-1);
         auto data_extended = new T[len * 2 - 1];
+        std::memcpy(data_extended, data, len * sizeof(T));
+        merge_sort_des(data_extended, 0, len*2-2);
 
         size_t start = 0;
         size_t end = len - 1;
@@ -20,11 +24,11 @@ namespace NPC
             data_extended[end] = data_extended[start] - data_extended[start + 1];
             start += 2;
 
-            merge_sort_dec(data_extended + start, start, end);
+            merge_sort_des(data_extended, start, end);
         }
 
         auto result = data_extended[end];
-        //delete[] data_extended;
+        delete[] data_extended;
 
         return result ? false : true;
     }
