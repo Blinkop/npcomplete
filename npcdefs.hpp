@@ -1,0 +1,93 @@
+#ifndef _NPCDEFS_HPP_
+#define _NPCDEFS_HPP_
+
+// std namespace definition
+#include <iostream>
+
+typedef unsigned long       uint32;
+typedef unsigned long long  uint64;
+
+template <typename T>
+uint64 sum_array(T* data, size_t len)
+{
+    T acc = 0;
+    for (size_t i = 0; i < len; i++)
+        acc += data[i];
+
+    return acc;
+}
+
+template <typename T>
+void merge(T arr[], size_t l, size_t m, size_t r) 
+{
+    size_t i, j, k;
+    size_t n1 = m - l + 1;
+    size_t n2 = r - m;
+
+    /* create temp arrays */
+    T L[n1], R[n2];
+
+    /* Copy data to temp arrays L[] and R[] */
+    for (i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+    for (j = 0; j < n2; j++)
+        R[j] = arr[m + 1 + j];
+
+    /* Merge the temp arrays back into arr[l..r]*/
+    i = 0; // Initial index of first subarray
+    j = 0; // Initial index of second subarray
+    k = l; // Initial index of merged subarray
+    while (i < n1 && j < n2)
+    {
+        if (L[i] > R[j])
+        {
+            arr[k] = L[i];
+            i++;
+        }
+        else
+        {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    /* Copy the remaining elements of L[], if there 
+        are any */
+    while (i < n1)
+    {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+    /* Copy the remaining elements of R[], if there 
+        are any */
+    while (j < n2)
+    {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+/* l is for left index and r is right index of the 
+    sub-array of arr to be sorted */
+template <typename T>
+void merge_sort_dec(T arr[], size_t l, size_t r)
+{
+    if (l < r)
+    {
+        // Same as (l+r)/2, but avoids overflow for
+        // large l and h
+        size_t m = l + (r - l) / 2;
+
+        // Sort first and second halves
+        merge_sort_dec(arr, l, m);
+        merge_sort_dec(arr, m + 1, r);
+
+        merge(arr, l, m, r);
+    }
+}
+
+#endif // _NPCDEFS_HPP_
